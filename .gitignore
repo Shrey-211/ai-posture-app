@@ -1,0 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+ai_posture_env/
+env/
+venv/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs and system files
+*.log
+.DS_Store
+Thumbs.db
+
+# Python environment files
+*.env
+*.venv
+
+# Optional: Uploaded files or test images
+uploads/
+*.jpg
+*.png
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# pycache in subfolders
+**/__pycache__/

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pose Stream Test</title>
+</head>
+<body>
+  <h2>Pose Detection Test (WebSocket)</h2>
+  <video id="video" width="640" height="480" autoplay></video>
+  <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+  <p id="feedback">Waiting for feedback...</p>
+
+  <script>
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const feedback = document.getElementById("feedback");
+    const ctx = canvas.getContext("2d");
+
+    // 1. Get webcam stream
+    navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+      video.srcObject = stream;
+    });
+
+    // 2. Connect to WebSocket backend
+    const socket = new WebSocket("ws://localhost:8000/ws/pose");
+
+    socket.onopen = () => {
+      console.log("WebSocket connected.");
+
+      setInterval(() => {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const dataURL = canvas.toDataURL("image/jpeg");
+        const base64 = canvas.toDataURL("image/jpeg").split(',')[1];
+        socket.send(base64);
+      }, 300); // Send a frame every 300ms
+    };
+
+    socket.onmessage = (event) => {
+      const result = JSON.parse(event.data);
+      feedback.textContent = "Landmarks received: " + (result.landmarks ? "Yes" : "No");
+    };
+
+    socket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+  </script>
+</body>
+</html>

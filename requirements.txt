@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+mediapipe
+opencv-python
+websockets
+aiofiles
+python-multipart
