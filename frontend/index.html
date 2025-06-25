@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pose Analyzer</title>
+  <style>
+    body { text-align: center; background-color: #111; color: #fff; }
+    canvas { border: 1px solid #555; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Live Pose Analysis</h1>
+  <video id="video" autoplay playsinline style="display:none;"></video>
+  <canvas id="canvas" width="640" height="480"></canvas>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    async function setupCamera() {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { width: 640, height: 480 },
+        audio: false
+      });
+      video.srcObject = stream;
+      return new Promise(resolve => {
+        video.onloadedmetadata = () => {
+          resolve(video);
+        };
+      });
+    }
+
+    async function sendFrames() {
+      const ws = new WebSocket('ws://localhost:8765');
+      ws.binaryType = 'arraybuffer';
+
+      ws.onmessage = (event) => {
+        const blob = new Blob([event.data], { type: 'image/jpeg' });
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        img.src = URL.createObjectURL(blob);
+      };
+
+      const sendLoop = () => {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(blob => {
+          if (ws.readyState === WebSocket.OPEN && blob) {
+            blob.arrayBuffer().then(buffer => ws.send(buffer));
+          }
+        }, 'image/jpeg', 0.8);
+        requestAnimationFrame(sendLoop);
+      };
+
+      sendLoop();
+    }
+
+    setupCamera().then(sendFrames);
+  </script>
+</body>
+</html>
