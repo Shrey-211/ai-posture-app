@@ -5,3 +5,5 @@ opencv-python
 websockets
 aiofiles
 python-multipart
+tensorflow
+tensorflow-hub
