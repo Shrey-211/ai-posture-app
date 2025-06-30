@@ -18,6 +18,12 @@ from ai_engine import pose_analyser
 
 KEY_LANDMARKS = ['left_shoulder', 'right_shoulder', 'left_hip', 'right_hip', 'left_knee', 'right_knee']
 
+MAJOR_KEYPOINTS = [
+    'left_shoulder', 'right_shoulder', 'left_elbow', 'right_elbow',
+    'left_wrist', 'right_wrist', 'left_hip', 'right_hip',
+    'left_knee', 'right_knee'
+]
+
 def is_fully_in_frame(keypoints):
     """Check if all key landmarks are detected (not None)."""
     if not keypoints:
@@ -92,12 +98,13 @@ def average_keypoint_distance(kps1, kps2):
             dists.append(np.linalg.norm(np.array(kps1[k]) - np.array(kps2[k])))
     return np.mean(dists) if dists else float('inf')
 
-def keypoints_within_threshold(kps1, kps2, threshold):
-    """Return the fraction of keypoints within the threshold distance."""
+def keypoints_within_threshold(kps1, kps2, threshold, keypoints_list=None):
+    """Return the fraction of keypoints within the threshold distance, for a given list."""
     close = 0
     total = 0
-    for k in kps1:
-        if k in kps2 and kps1[k] is not None and kps2[k] is not None:
+    keys = keypoints_list if keypoints_list is not None else kps1.keys()
+    for k in keys:
+        if k in kps1 and k in kps2 and kps1[k] is not None and kps2[k] is not None:
             dist = np.linalg.norm(np.array(kps1[k]) - np.array(kps2[k]))
             if dist < threshold:
                 close += 1
@@ -188,10 +195,54 @@ def main():
             if coord is not None:
                 cv2.circle(frame, (int(coord[0]), int(coord[1])), 5, (0, 0, 255), -1)
 
+        # --- Feedback window ---
+        feedback_img = 255 * np.ones((400, 400, 3), dtype=np.uint8)
+        y0, dy = 30, 28
+        cv2.putText(feedback_img, f"Pose Feedback ({pose_idx+1}/{len(ref_sequence)})", (10, 25),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
+        line = 1
+        fraction_close = 0.0
+        if is_fully_in_frame(keypoints):
+            # Calculate fraction for MAJOR_KEYPOINTS
+            fraction_close = keypoints_within_threshold(keypoints, ref_kps, threshold, MAJOR_KEYPOINTS)
+            for k in MAJOR_KEYPOINTS:
+                user_pt = keypoints.get(k)
+                ref_pt = ref_kps.get(k)
+                if user_pt is not None and ref_pt is not None:
+                    dx = ref_pt[0] - user_pt[0]
+                    dy_ = ref_pt[1] - user_pt[1]
+                    dist = np.linalg.norm(np.array(user_pt) - np.array(ref_pt))
+                    direction = []
+                    if abs(dx) > 10:
+                        direction.append('right' if dx > 0 else 'left')
+                    if abs(dy_) > 10:
+                        direction.append('down' if dy_ > 0 else 'up')
+                    if dist > threshold:
+                        msg = f"{k}: Move {', '.join(direction)} ({int(dist)} px)"
+                        color = (0, 0, 255)
+                    else:
+                        msg = f"{k}: OK"
+                        color = (0, 128, 0)
+                    cv2.putText(feedback_img, msg, (10, y0 + line * dy),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
+                    line += 1
+            # Show fraction in feedback
+            cv2.putText(feedback_img, f"Aligned: {int(fraction_close*100)}%", (10, y0 + line * dy),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
+        else:
+            cv2.putText(feedback_img, "Please ensure your full body is in the frame", (10, y0 + dy),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
+
+        cv2.imshow("Guide Exercise", frame)
+        cv2.imshow("Pose Feedback", feedback_img)
+        key = cv2.waitKey(1) & 0xFF
+        if key == 27:  # ESC to exit
+            break
+
         # Compare user pose to reference
         if is_fully_in_frame(keypoints):
-            fraction_close = keypoints_within_threshold(keypoints, ref_kps, threshold)
-            if fraction_close >= 0.8:
+            # Use the same fraction as in feedback
+            if fraction_close >= 0.8 - 1e-6:
                 cv2.putText(frame, "Aligned!", (30, 80),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
                 pose_idx += 1
@@ -200,14 +251,6 @@ def main():
             else:
                 cv2.putText(frame, f"Align to reference pose ({pose_idx+1}/{len(ref_sequence)})", (30, 80),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
-        else:
-            cv2.putText(frame, "Please ensure your full body is in the frame", (30, 40),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
-
-        cv2.imshow("Guide Exercise", frame)
-        key = cv2.waitKey(1) & 0xFF
-        if key == 27:  # ESC to exit
-            break
 
     if completed:
         print("Exercise complete!")
