@@ -114,3 +114,73 @@ if __name__ == "__main__":
     finally:
         cap.release()
         analyzer.release()
+
+# --- Utility functions for external scripts ---
+
+# List of pose landmarks to extract (MediaPipe names)
+POSE_LANDMARKS = {
+    'nose': 0,
+    'left_eye_inner': 1,
+    'left_eye': 2,
+    'left_eye_outer': 3,
+    'right_eye_inner': 4,
+    'right_eye': 5,
+    'right_eye_outer': 6,
+    'left_ear': 7,
+    'right_ear': 8,
+    'mouth_left': 9,
+    'mouth_right': 10,
+    'left_shoulder': 11,
+    'right_shoulder': 12,
+    'left_elbow': 13,
+    'right_elbow': 14,
+    'left_wrist': 15,
+    'right_wrist': 16,
+    'left_hip': 23,
+    'right_hip': 24,
+    'left_knee': 25,
+    'right_knee': 26,
+    'left_ankle': 27,
+    'right_ankle': 28
+}
+
+_analyzer_instance = None
+
+def _get_analyzer():
+    global _analyzer_instance
+    if _analyzer_instance is None:
+        _analyzer_instance = HolisticAnalyzer()
+    return _analyzer_instance
+
+def detect_pose(frame):
+    """
+    Detect pose landmarks and return a dict of keypoints: {name: (x, y) or None}
+    """
+    analyzer = _get_analyzer()
+    results = analyzer.analyze(frame)
+    keypoints = {}
+    h, w, _ = frame.shape
+    if results.pose_landmarks:
+        for name, idx in POSE_LANDMARKS.items():
+            lm = results.pose_landmarks.landmark[idx]
+            if lm.visibility > 0.5:
+                keypoints[name] = (int(lm.x * w), int(lm.y * h))
+            else:
+                keypoints[name] = None
+    else:
+        for name in POSE_LANDMARKS:
+            keypoints[name] = None
+    return keypoints
+
+def analyze_posture(keypoints, reference_keypoints=None):
+    """
+    Stub for posture analysis. If reference_keypoints is provided, returns average distance.
+    """
+    if reference_keypoints is None:
+        return None
+    import numpy as np
+    dists = []
+    for k in keypoints:
+        if k in reference_keypoints and keypoints[k] is not None and reference_keypoints[k] is not None:
+            dists.append(np.linalg.norm(np.array(keypoints[k]) - np.array(reference_keypoints[k])))
+    return np.mean(dists) if dists else float('inf')

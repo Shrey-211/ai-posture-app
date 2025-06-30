@@ -1,0 +1,467 @@
+{
+  "exercise_name": "practice_1",
+  "timestamp": "20250630_224548",
+  "keypoints_sequence": [
+    {
+      "nose": [
+        375,
+        11
+      ],
+      "left_eye_inner": [
+        379,
+        0
+      ],
+      "left_eye": [
+        384,
+        0
+      ],
+      "left_eye_outer": [
+        387,
+        -1
+      ],
+      "right_eye_inner": [
+        368,
+        0
+      ],
+      "right_eye": [
+        365,
+        0
+      ],
+      "right_eye_outer": [
+        361,
+        0
+      ],
+      "left_ear": [
+        391,
+        -1
+      ],
+      "right_ear": [
+        357,
+        1
+      ],
+      "mouth_left": [
+        383,
+        18
+      ],
+      "mouth_right": [
+        371,
+        19
+      ],
+      "left_shoulder": [
+        427,
+        59
+      ],
+      "right_shoulder": [
+        323,
+        61
+      ],
+      "left_elbow": [
+        438,
+        135
+      ],
+      "right_elbow": [
+        313,
+        142
+      ],
+      "left_wrist": [
+        448,
+        206
+      ],
+      "right_wrist": [
+        312,
+        211
+      ],
+      "left_hip": [
+        408,
+        208
+      ],
+      "right_hip": [
+        351,
+        211
+      ],
+      "left_knee": [
+        407,
+        322
+      ],
+      "right_knee": [
+        358,
+        326
+      ],
+      "left_ankle": [
+        399,
+        425
+      ],
+      "right_ankle": [
+        374,
+        427
+      ]
+    },
+    {
+      "nose": [
+        367,
+        -13
+      ],
+      "left_eye_inner": [
+        369,
+        -20
+      ],
+      "left_eye": [
+        371,
+        -21
+      ],
+      "left_eye_outer": [
+        373,
+        -21
+      ],
+      "right_eye_inner": [
+        360,
+        -18
+      ],
+      "right_eye": [
+        358,
+        -17
+      ],
+      "right_eye_outer": [
+        355,
+        -16
+      ],
+      "left_ear": [
+        379,
+        -17
+      ],
+      "right_ear": [
+        353,
+        -9
+      ],
+      "mouth_left": [
+        374,
+        -3
+      ],
+      "mouth_right": [
+        365,
+        -1
+      ],
+      "left_shoulder": [
+        424,
+        51
+      ],
+      "right_shoulder": [
+        318,
+        44
+      ],
+      "left_elbow": [
+        436,
+        129
+      ],
+      "right_elbow": [
+        252,
+        79
+      ],
+      "left_wrist": [
+        448,
+        200
+      ],
+      "right_wrist": [
+        175,
+        94
+      ],
+      "left_hip": [
+        403,
+        206
+      ],
+      "right_hip": [
+        343,
+        207
+      ],
+      "left_knee": [
+        407,
+        327
+      ],
+      "right_knee": [
+        347,
+        327
+      ],
+      "left_ankle": [
+        410,
+        431
+      ],
+      "right_ankle": [
+        361,
+        432
+      ]
+    },
+    {
+      "nose": [
+        366,
+        0
+      ],
+      "left_eye_inner": null,
+      "left_eye": [
+        371,
+        -8
+      ],
+      "left_eye_outer": [
+        374,
+        -8
+      ],
+      "right_eye_inner": [
+        360,
+        -6
+      ],
+      "right_eye": [
+        356,
+        -5
+      ],
+      "right_eye_outer": [
+        353,
+        -5
+      ],
+      "left_ear": [
+        377,
+        -8
+      ],
+      "right_ear": [
+        348,
+        -3
+      ],
+      "mouth_left": [
+        372,
+        5
+      ],
+      "mouth_right": [
+        363,
+        8
+      ],
+      "left_shoulder": [
+        421,
+        50
+      ],
+      "right_shoulder": [
+        313,
+        51
+      ],
+      "left_elbow": [
+        432,
+        128
+      ],
+      "right_elbow": [
+        307,
+        138
+      ],
+      "left_wrist": [
+        446,
+        201
+      ],
+      "right_wrist": [
+        309,
+        214
+      ],
+      "left_hip": [
+        405,
+        207
+      ],
+      "right_hip": [
+        343,
+        209
+      ],
+      "left_knee": [
+        408,
+        326
+      ],
+      "right_knee": [
+        348,
+        326
+      ],
+      "left_ankle": [
+        410,
+        430
+      ],
+      "right_ankle": [
+        362,
+        430
+      ]
+    },
+    {
+      "nose": [
+        366,
+        2
+      ],
+      "left_eye_inner": [
+        365,
+        -4
+      ],
+      "left_eye": [
+        367,
+        -5
+      ],
+      "left_eye_outer": [
+        370,
+        -8
+      ],
+      "right_eye_inner": [
+        359,
+        -3
+      ],
+      "right_eye": [
+        356,
+        -2
+      ],
+      "right_eye_outer": [
+        353,
+        -2
+      ],
+      "left_ear": [
+        371,
+        -3
+      ],
+      "right_ear": [
+        348,
+        0
+      ],
+      "mouth_left": [
+        369,
+        8
+      ],
+      "mouth_right": [
+        362,
+        11
+      ],
+      "left_shoulder": [
+        414,
+        42
+      ],
+      "right_shoulder": [
+        313,
+        55
+      ],
+      "left_elbow": [
+        479,
+        79
+      ],
+      "right_elbow": [
+        306,
+        140
+      ],
+      "left_wrist": [
+        559,
+        98
+      ],
+      "right_wrist": [
+        308,
+        215
+      ],
+      "left_hip": [
+        404,
+        205
+      ],
+      "right_hip": [
+        345,
+        209
+      ],
+      "left_knee": [
+        408,
+        325
+      ],
+      "right_knee": [
+        347,
+        325
+      ],
+      "left_ankle": [
+        411,
+        429
+      ],
+      "right_ankle": [
+        361,
+        431
+      ]
+    },
+    {
+      "nose": [
+        360,
+        -8
+      ],
+      "left_eye_inner": null,
+      "left_eye": null,
+      "left_eye_outer": [
+        370,
+        -18
+      ],
+      "right_eye_inner": [
+        354,
+        -13
+      ],
+      "right_eye": [
+        352,
+        -12
+      ],
+      "right_eye_outer": [
+        349,
+        -11
+      ],
+      "left_ear": [
+        373,
+        -15
+      ],
+      "right_ear": [
+        345,
+        -6
+      ],
+      "mouth_left": [
+        367,
+        0
+      ],
+      "mouth_right": [
+        358,
+        2
+      ],
+      "left_shoulder": [
+        417,
+        51
+      ],
+      "right_shoulder": [
+        311,
+        53
+      ],
+      "left_elbow": [
+        430,
+        130
+      ],
+      "right_elbow": [
+        305,
+        139
+      ],
+      "left_wrist": [
+        442,
+        200
+      ],
+      "right_wrist": [
+        309,
+        213
+      ],
+      "left_hip": [
+        403,
+        206
+      ],
+      "right_hip": [
+        341,
+        211
+      ],
+      "left_knee": [
+        409,
+        327
+      ],
+      "right_knee": [
+        346,
+        328
+      ],
+      "left_ankle": [
+        411,
+        431
+      ],
+      "right_ankle": [
+        361,
+        432
+      ]
+    }
+  ]
+}
